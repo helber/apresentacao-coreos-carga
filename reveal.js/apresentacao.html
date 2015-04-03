@@ -17,7 +17,7 @@
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
-				<section>
+				<section data-transition="zoom">
 					<h1>Apresentação</h1>
 
 					<h3>Apresentação de CoreOs, Docker e PXE</h3>
@@ -26,11 +26,24 @@
 					</p>
 				</section>
 
-				<section>
-					<section>V1</section>
-					<section>V2</section>
-					<section>V3</section>
-					<section>V4</section>
+				<section data-transition="concave">
+					<section data-transition="zoom">V1</section>
+					<section data-background="#000">V2</section>
+					<section data-background-transition="concave">
+						<video>
+							<source data-src="file:///mnt/hd1TB/Bones/Episodio/Bones.S10E11.720p.HDTV.x264-KILLERS.mkv" type="video/mp4" autoplay=true />
+						</video>
+					</section>
+					<section data-background-video="file:///mnt/hd1TB/Bones/Episodio/Bones.S10E11.720p.HDTV.x264-KILLERS.mkv">Este é um vídeo em background</section>
+				</section>
+				<section data-autoslide="1000">
+					<p>After 2 seconds the first fragment will be shown.</p>
+					<p class="fragment" data-autoslide="10000">After 10 seconds the next fragment will be shown.</p>
+					<p class="fragment">Now, the fragment is displayed for 2 seconds before the next slide is shown.</p>
+					<aside class="notes">
+						Este é um texto de ajuda....
+					</aside>
+				</aside>
 				</section>
 			</div>
 
@@ -48,6 +61,7 @@
 				progress: true,
 				history: false,
 				center: true,
+				slideNumber: true,
 
 				transition: 'slide', // none/fade/slide/convex/concave/zoom
 
