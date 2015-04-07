@@ -6,6 +6,7 @@
 		<title>Apresentação de CoreOs, Docker e PXE</title>
 		<link rel="stylesheet" href="reveal.js-3.0.0/css/reveal.css">
 		<link rel="stylesheet" href="reveal.js-3.0.0/css/theme/black.css" id="theme">
+		<link rel="stylesheet" href="reveal.js-3.0.0/lib/css/zenburn.css">
 
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
@@ -14,7 +15,6 @@
 	<body>
 
 		<div class="reveal">
-
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section data-transition="zoom">
@@ -46,7 +46,32 @@
 					<section data-background-video="file:///mnt/projetos/gerais/videos/iptv/20130613_091547.mp4" type="video/mp4">Vídeo</section>
 				</section>
 				<section data-transition="concave">
-					<section data-transition="zoom">V1</section>
+					<section data-transition="zoom">
+TODO: REMOVE
+<pre class="stretch"><code>
+$ docker run -d -v ~/chef/cookbook:/cookbook --name chefdk spheromak/docker-chefdk sleep 6000000
+$ docker exec -ti chefdk bundle install
+$ docker exec -ti chefdk rake test</code></pre>
+</code></pre>
+					</section>
+					<section>
+					<h2><b>Logging</b> and Metrics</h2>
+					<br><br>
+					<p>But my app doesn't log to stdout/stderr.
+					<div class="fragment">
+					<p>It does now!
+					<pre><code>
+# /etc/nginx/nginx.conf
+worker_processes 1;
+daemon off;
+user app app;
+pid /app/nginx.pid;
+error_log /dev/stderr;
+access_log /dev/stdout;
+...
+					</code></pre>
+					</div>
+					</section>
 					<section data-background="#000">V2</section>
 					<section data-background-transition="concave">V3 - Vídeo
 						<video>
