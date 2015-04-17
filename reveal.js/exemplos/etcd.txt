@@ -1,0 +1,53 @@
+#> etcdctl ls --recursive /_coreos.com
+/_coreos.com/fleet
+/_coreos.com/fleet/machines
+/_coreos.com/fleet/machines/8d91f3348fb049139e8b4a022e534abd
+/_coreos.com/fleet/machines/d532416a0c6c432b9c4155a6e2effbcc
+/_coreos.com/fleet/machines/d532416a0c6c432b9c4155a6e2effbcc/object
+/_coreos.com/fleet/engine
+/_coreos.com/fleet/engine/version
+/_coreos.com/fleet/lease
+/_coreos.com/fleet/lease/engine-leader
+/_coreos.com/fleet/unit
+/_coreos.com/fleet/unit/645a97db0ca00706e9fbdfa70517a743b5c4466e
+/_coreos.com/fleet/unit/ffa6af223b6415941d9481ea29c621d87614891b
+/_coreos.com/fleet/job
+/_coreos.com/fleet/job/selenium-hub.service
+/_coreos.com/fleet/job/selenium-hub.service/target-state
+/_coreos.com/fleet/job/selenium-hub.service/target
+/_coreos.com/fleet/job/selenium-hub.service/job-state
+/_coreos.com/fleet/job/selenium-hub.service/object
+/_coreos.com/fleet/job/selenium-chrome-debug@.service
+/_coreos.com/fleet/job/selenium-chrome-debug@.service/object
+/_coreos.com/fleet/job/selenium-chrome-debug@.service/target-state
+/_coreos.com/fleet/job/selenium-chrome-debug@1.service
+/_coreos.com/fleet/job/selenium-chrome-debug@1.service/target
+/_coreos.com/fleet/job/selenium-chrome-debug@1.service/job-state
+/_coreos.com/fleet/job/selenium-chrome-debug@1.service/object
+/_coreos.com/fleet/job/selenium-chrome-debug@1.service/target-state
+/_coreos.com/fleet/state
+/_coreos.com/fleet/state/selenium-hub.service
+/_coreos.com/fleet/state/selenium-chrome-debug@1.service
+/_coreos.com/fleet/states
+/_coreos.com/fleet/states/selenium-hub.service
+/_coreos.com/fleet/states/selenium-hub.service/d532416a0c6c432b9c4155a6e2effbcc
+/_coreos.com/fleet/states/selenium-chrome-debug@1.service
+/_coreos.com/fleet/states/selenium-chrome-debug@1.service/d532416a0c6c432b9c4155a6e2effbcc
+
+etcdctl get /_coreos.com/fleet/job/selenium-hub.service/target
+d532416a0c6c432b9c4155a6e2effbcc
+
+etcdctl get /_coreos.com/fleet/unit/645a97db0ca00706e9fbdfa70517a743b5c4466e
+{"Raw":"[Unit]\nDescription=Selenium
+hub\nAfter=docker.service\nRequires=docker.service\n\n[Service]\nEnvironmentFile=/etc/environment\nTimeoutStartSec=0\nExecStartPre=-/usr/bin/docker
+kill selenium-hub\nExecStartPre=-/usr/bin/docker rm
+selenium-hub\nExecStartPre=/usr/bin/docker pull
+selenium/hub:2.45.0\nExecStart=/usr/bin/docker run --rm --name selenium-hub -p
+4444:4444 selenium/hub:2.45.0\nExecStartPost=/bin/bash -c \"source
+/etc/environment; IF=$(ifconfig | grep RUNNING| egrep -i '^(en|eth)'| cut -d':'
+-f1| tail -n1) \u0026\u0026 HOST_IP=$(/bin/ifconfig $IF | awk '/inet /{print
+$2}') \u0026\u0026 /usr/bin/etcdctl set /cianet/HUB_IP
+$HOST_IP\"\nExecStop=/usr/bin/docker stop
+selenium-hub\nExecStopPost=-/usr/bin/etcdctl rm
+/cianet/HUB_IP\n\n[Install]\nWantedBy=multi-user.target\n\n[X-Fleet]\nConflicts=selenium-hub\n"}
+
