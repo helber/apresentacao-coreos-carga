@@ -139,27 +139,39 @@ $ /opt/google/chrome/chrome_sandbox --kiosk \
         </aside>
         </ul>
     </section>
+    <section>
+        <p>Pricisamos multiplicar</p>
+        <ul>
+            <li class="fragment">Servidores?</li>
+            <li class="fragment">Agentes?</li>
+            <li class="fragment">Comandos ssh</li>
+            <li class="fragment">Trabalho para adicionar servidores</li>
+        </ul>
+    </section>
+    <section>
+        <p>Depois de muita pesquisa - CoreOS</p>
+        <ul>
+            <li class="fragment">140 Mb comprimido</li>
+            <li class="fragment">Não roda Python, Perl, Ruby, Javascript, ...</li>
+            <li class="fragment">Sem gerenciamento de pacotes</li>
+            <li class="fragment">Sem compilador</li>
+            <li class="fragment">Orquestração de serviços</li>
+            <li class="fragment">Se um servidor cair os serviços são iniciados automaticamente nos outros</li>
+            <li class="fragment">
+                Resolve conflitos entre instancias de containers
+                <ul>
+                    <li>rode o X no mesmo servidor de Y</li>
+                    <li>Não deixe o X rodar no mesmo servidor de Y</li>
+                    <li>Somente uma instancia do Z pode estar rodando</li>
+                    <li>Roda somente no servidor X</li>
+                </ul>
+             </li>
+        </ul>
+    </section>
 </section>
 
 
 <section data-markdown>
-- Caminho seguido
-    - Muitas instancias do browser (muitos containers docker)
-        - Servidores?
-        - Agentes que lançam os dockers?
-    - CoreOS
-        - 140 Mb comprimido
-        - Não roda Python, Perl, Ruby, Javascript, ...
-        - Sem gerenciamento de pacotes
-        - Sem compilador
-        - Orquestração de serviços
-        - Se um servidor cair os serviços são iniciados automaticamente nos outros
-        - Resolve conflitos entre instancias de containers
-        - Ex.:
-            - rode o X no mesmo servidor de Y
-            - Não deixe o X rodar no mesmo servidor de Y
-            - Somente uma instancia do Z pode estar rodando
-            - Roda somente no servidor X
 - Como funciona tudo?
     - DHCP:
         - Código
