@@ -42,7 +42,7 @@ Agenda
     - Exemplos de execução
 - Agradescimentos
 </section>
-<section >
+<section>
     <section>
         <h3>De onde veio a necessidade?</h3>
         <h4>Sistema de IPTV - com um navegador web como UI</h4>
@@ -94,17 +94,56 @@ Agenda
         </ul>
     </section>
 </section>
+
+<section>
+    <section>
+        <h3>Caminho seguido</h3>
+        <h4>Abrir multiplas instâncias de browser com parametros</h4>
+<pre class="shell"><code>
+# Rodando chrome - teste
+$ /opt/google/chrome/chrome_sandbox --kiosk \
+--disk-cache-size=1 --media-cache-size=1 \
+--disable-simple-cache --disable-cache \
+--user-agent="serial=Helber;mac=FF:00:00:00:00:97;" \
+"http://middleware.iptvdomain/debug/?profile_test=guide_programmes#repg"
+</code></pre>
+        <p class="fragment">Chrome compartilha processos recursos</p>
+        <p class="fragment">Multiplas instancias <span style="color:red;">#FAIL</span></p>
+        <p class="fragment">Multiplas abas <span style="color:red;">#FAIL</span></p>
+        <aside class="notes">
+            Chrome compartilha recursos
+        </aside>
+    </section>
+
+    <section>
+        <h3>Resolver isolamento</h3>
+        <p>(Docker)</p>
+<pre class="shell"><code>
+# Rodando chrome - teste
+/usr/bin/docker run -p 5900 --rm --privileged \
+ -e IPTV_PROTO=http \
+ -e IPTV_DISABLE_CACHE=false \
+ -e IPTV_SERIAL=FAKE_00000000000000000010 \
+ -e IPTV_MAC=00:00:00:00:00:0A \
+ -e IPTV_HOST=middleware.iptvdomain \
+ -e IPTV_PATH=debug/?profile_test=guide_programmes#repg \
+ --name cianet-chrome-test-10 helber/google-chrome-test
+</code></pre>
+        <ul>
+        <li class="fragment">Enjaulei o bicho <span class="fragment" style="color:green;">#SUCCESS</span></li>
+        <li class="fragment">Consumo de recursos, pouca coisa a mais que o próprio processo<span style="color:green;">#SUCCESS</span></li>
+        <li class="fragment">Meta de teste simular 7.000 usuários simultâneos</li>
+        <li class="fragment">Agora só tenho que colocar mais 6999 <span class="fragment" style="color:red;">BUÁÁÁ</span></li>
+        <aside class="notes">
+            Chrome compartilha recursos
+        </aside>
+        </ul>
+    </section>
+</section>
+
+
 <section data-markdown>
 - Caminho seguido
-    - Problemas:
-        - Abrir multiplas instcancias de browser
-        - Passar parametros
-        - Não isolamento entre as instâncias do chrome
-    - Resolver isolamento (Docker)
-        - Linux containers
-        - chroot com steroides
-    - Passagem de parametros
-        - Exemplos de código
     - Muitas instancias do browser (muitos containers docker)
         - Servidores?
         - Agentes que lançam os dockers?
@@ -141,38 +180,17 @@ Agenda
     - Exemplos de execução
 - Agradescimentos
 </section>
-<section data-background="images/ppt_mestrakingrus.png">
-        <section>
-                <h2>Introdução: </h2>
-                <h3>Sistema de IPTV - com um navegador web como UI</h3>
-                <aside class="notes">
-                        Caracteristicas do sistema
-                </aside>
-        </section>
-        <section>
-                <p>Caracteristicas:</p>
-                <ul>
-                        <li class="fragment"><i>Single page application</i></li>
-                        <li class="fragment">Grande interatividade</li>
-                        <li class="fragment">Muitas requisições para cada comando do usuário</li>
-                        <li class="fragment">Conexões "persistentes"</li>
-                        <li class="fragment">Frontend evoluindo muito rapidamente</li>
-                        <li class="fragment">Grande quantidade de arquivos abertos</li>
-                </ul>
-        </section>
-        <section data-background-video="file:///mnt/projetos/gerais/videos/iptv/20130613_091547.mp4" type="video/mp4">Vídeo</section>
-</section>
 <section data-transition="concave">
-        <section>
-                <p>Principais componentes:</p>
-                <ul>
-                        <li class="fragment">Docker (Containers e isolamento)</li>
-                        <li class="fragment">Etcd (Banco de dados - chave/valor)</li>
-                        <li class="fragment">Fleet (Agente / Orquestração)</li>
-                        <li class="fragment"></li>
-                </ul>
-        </section>
-        <section data-transition="zoom">
+    <section>
+        <p>Principais componentes:</p>
+        <ul>
+            <li class="fragment">Docker (Containers e isolamento)</li>
+            <li class="fragment">Etcd (Banco de dados - chave/valor)</li>
+            <li class="fragment">Fleet (Agente / Orquestração)</li>
+            <li class="fragment"></li>
+        </ul>
+    </section>
+    <section data-transition="zoom">
 TODO: REMOVE
 <pre class="stretch"><code>
 $ docker run -d -v ~/chef/cookbook:/cookbook --name chefdk spheromak/docker-chefdk sleep 6000000
@@ -206,14 +224,6 @@ access_log /dev/stdout;
         </section>
         <section data-background-video="file:///mnt/projetos/gerais/videos/iptv/20130613_091547.mp4">Este é um vídeo em background</section>
     </section>
-    <section data-autoslide="1000">
-        <p>After 2 seconds the first fragment will be shown.</p>
-        <p class="fragment" data-autoslide="10000">After 10 seconds the next fragment will be shown.</p>
-        <p class="fragment">Now, the fragment is displayed for 2 seconds before the next slide is shown.</p>
-        <aside class="notes">
-            Este é um texto de ajuda....
-        </aside>
-    </aside>
 </section>
         </div>
     </div>
