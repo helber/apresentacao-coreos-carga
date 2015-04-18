@@ -11,6 +11,9 @@
             <div class="reveal">
                 <!-- Any section element inside of this container is displayed as a slide -->
                 <div class="slides">
+
+
+<!-- Capa -->
 <section data-transition="zoom" data-background="images/ppt_capakingrus.png">
         <div style="position:absolute;top:-150px;left:-100px;">
             <h2>Apresentação</h2>
@@ -20,6 +23,9 @@
             </p>
         </div>
 </section>
+
+
+<!-- Agenda -->
 <section data-markdown style="font-size:23px;">
 Agenda
 ========
@@ -42,6 +48,9 @@ Agenda
     - Exemplos de execução
 - Agradescimentos
 </section>
+
+
+<!-- Parte 1 -->
 <section>
     <section>
         <h3>De onde veio a necessidade?</h3>
@@ -95,6 +104,8 @@ Agenda
     </section>
 </section>
 
+
+<!-- Parte 2 -->
 <section>
     <section>
         <h3>Caminho seguido</h3>
@@ -130,13 +141,13 @@ $ /opt/google/chrome/chrome_sandbox --kiosk \
  --name cianet-chrome-test-10 helber/google-chrome-test
 </code></pre>
         <ul>
-        <li class="fragment">Enjaulei o bicho <span class="fragment" style="color:green;">#SUCCESS</span></li>
-        <li class="fragment">Consumo de recursos, pouca coisa a mais que o próprio processo<span style="color:green;">#SUCCESS</span></li>
-        <li class="fragment">Meta de teste simular 7.000 usuários simultâneos</li>
-        <li class="fragment">Agora só tenho que colocar mais 6999 <span class="fragment" style="color:red;">BUÁÁÁ</span></li>
-        <aside class="notes">
-            Chrome compartilha recursos
-        </aside>
+            <li class="fragment">Enjaulei o bicho <span class="fragment" style="color:green;">#SUCCESS</span></li>
+            <li class="fragment">Consumo de recursos, pouca coisa a mais que o próprio processo<span style="color:green;">#SUCCESS</span></li>
+            <li class="fragment">Meta de teste simular 7.000 usuários simultâneos</li>
+            <li class="fragment">Agora só tenho que colocar mais 6999 <span class="fragment" style="color:red;">BUÁÁÁ</span></li>
+            <aside class="notes">
+                Chrome compartilha recursos
+            </aside>
         </ul>
     </section>
     <section>
@@ -149,7 +160,7 @@ $ /opt/google/chrome/chrome_sandbox --kiosk \
         </ul>
     </section>
     <section>
-        <p>Depois de muita pesquisa - CoreOS</p>
+        <p>Depois de alguma pesquisa - CoreOS</p>
         <ul>
             <li class="fragment">140 Mb comprimido</li>
             <li class="fragment">Não roda Python, Perl, Ruby, Javascript, ...</li>
@@ -171,71 +182,255 @@ $ /opt/google/chrome/chrome_sandbox --kiosk \
 </section>
 
 
-<section data-markdown>
-- Como funciona tudo?
-    - DHCP:
-        - Código
-    - CoreOS inicia:
-        - Carrega o arquivo de spec de inicialização (cloud-configs)
-            - Código
-        - libvirt
-            - Código
-    - Etcd
-        - Banco de dados chave valor
-        >etcdctl ls --recursive /_coreos.com
-    - Fleet
-        - Interface de cluster para o systemd
-        - Consulta o etcd
-            - Exemplo de código
-    - Serviços
-        - Exemplo de código
-    - Exemplos de execução
-- Agradescimentos
-</section>
-<section data-transition="concave">
+<!-- Parte 3 -->
+<section>
     <section>
-        <p>Principais componentes:</p>
+        <h4>CoreOS</h4>
+        <p>Opções de inicialização e plataformas</p>
+        <a href="https://coreos.com/docs/#running-coreos">https://coreos.com/docs/#running-coreos</a>
+        <img src="images/plataformas.png" />
+    </section>
+
+    <section>
+        <h3>DHCP e PXE</h3>
+<pre class="nginx"><code>
+...
+allow booting;
+allow bootp;
+ddns-update-style interim;
+ignore client-updates;
+...
+subnet 10.0.0.0 netmask 255.255.255.0 {
+...
+        option subnet-mask 255.255.255.0;
+        option broadcast-address 10.0.0.255;
+        range dynamic-bootp 10.0.0.200 10.0.0.240;
+        next-server 10.0.0.10;
+        filename "pxelinux.0";
+}
+</code></pre>
+    </section>
+
+    <section>
+        <h3>PXE - Boot</h3>
+        <p >Os arquivos são carregados por tftp da maquina 10.0.0.10</p>
+        <p >Sistema de boot vai carregar pxelinux.0</p>
+        <p >No dir: /var/lib/tftpboot/pxelinux.cfg/ ficam as configs</p>
+<pre ><code class="yaml">default coreos
+prompt 1
+timeout 15
+display boot.msg
+label coreos
+  menu default
+  kernel coreos_production_pxe.vmlinuz
+  append initrd=coreos_production_pxe_image.cpio.gz \
+cloud-config-url=http://10.0.0.5/pxe-cloud-config.yml
+</code></pre>
+        <p class="fragment">O principal neste ponto é <span style="color:red;">pxe-cloud-config.yml</span></p>
+    </section>
+
+    <section>
+        <h3>CoreOS - Inisialização do SO</h3>
+        <h4>Um linux com quase nada</h4>
         <ul>
+            <li class="fragment">cloud-init</li>
+            <li class="fragment">Systemd</li>
             <li class="fragment">Docker (Containers e isolamento)</li>
             <li class="fragment">Etcd (Banco de dados - chave/valor)</li>
             <li class="fragment">Fleet (Agente / Orquestração)</li>
-            <li class="fragment"></li>
+            <li class="fragment">Kubernetes (Agente / Orquestração - by Google)</li>
+            <li class="fragment">Flannel (Networking)</li>
+            <li class="fragment">rkt</li>
         </ul>
     </section>
-    <section data-transition="zoom">
-TODO: REMOVE
-<pre class="stretch"><code>
-$ docker run -d -v ~/chef/cookbook:/cookbook --name chefdk spheromak/docker-chefdk sleep 6000000
-$ docker exec -ti chefdk bundle install
-$ docker exec -ti chefdk rake test</code></pre>
+
+    <section>
+        <p>CoreOS - cloud-config</p>
+<pre class="bash stretch"><code style="font-size:14px;line-height: 16px;">#cloud-config
+ssh-authorized-keys:
+  - ssh-rsa AAAAB3Nza...
+users:
+  - name: helber
+    coreos-ssh-import-github: helber
+    groups:
+      - sudo
+      - docker
+  - name: root
+    passwd: $1$wCH/vSmc$...
+coreos:
+  fleet:
+    etcd_servers: "http://10.0.0.9:4001"
+  units:
+    - name: etcd.service
+      mask: true
+    - name: fleet.service
+      command: start
+    - name: mnt-backupHelber.mount
+      command: start
+      content: |
+        [Unit]
+        Description=Mounts fileserver
+        Wants=network.target
+        After=network.target
+        After=remote-fs.target
+        [Mount]
+        Where=/mnt/backupHelber
+        What=10.0.0.10:/mnt/backupHelber
+        Type=nfs
+        [Install]
+        WantedBy=multi-user.target
 </code></pre>
+    </section>
+
+    <section>
+        <h3>Systemd</h3>
+        <p>Criando nosso serviço para rodar do cluster</p>
+        <p>Hoje padrão de init das distribuições linux</p>
+<pre class="ini"><code style="font-size:14px;line-height: 16px;">[Unit]
+Description=Cianet webkit %i
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill cianet-webkit-test-%i
+ExecStartPre=-/usr/bin/docker rm cianet-webkit-test-%i
+ExecStartPre=/usr/bin/docker pull helber/cianet-webkitgtk3
+ExecStart=/usr/bin/docker run -p 5900 --rm --privileged \
+ -e IPTV_PROTO=http \
+ -e IPTV_DISABLE_CACHE=false \
+ -e IPTV_SERIAL=FAKE_00000000000000000010 \
+ -e IPTV_MAC=00:00:00:00:00:0A \
+ -e IPTV_HOST=middleware.iptvdomain \
+ -e IPTV_PATH=epg/?profile_test=guide_programmes \
+ --name cianet-webkit-test-%i helber/cianet-webkitgtk3
+ExecStop=/usr/bin/docker stop cianet-webkit-test-%i
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+    </section>
+
+    <section>
+        <h3>ETCD</h3>
+        <h4>Banco de dados chave-valor</h4>
+        <p class="fragment">Preparado para ser tolerante à falha e distribuido <span style="color:green;">OK</span></p>
+        <p class="fragment">Tudo de está rodando e estado de serviços e servidores estão nele <span style="color:green;">OK</span></p>
+        <p class="fragment">Serviços como o Fleet (proximo slide) se baseia nele</p>
+    </section>
+
+    <section>
+        <h3>Fleet</h3>
+        <h4>Agente de controle de Systemd Units</h4>
+        <p class="fragment">Lê e escreve as informações do etcd e executa as Units</p>
+        <p class="fragment">Orquestrador da unidades rodando</p>
+        <p class="fragment">Faz o gerenciamento do que roda onde e quando</p>
+        <p class="fragment"></p>
+    </section>
+
+    <section>
+        <p>fleetctl - comando de controle do fleet</p>
+<pre class="shell"><code>
+$ fleetctl list-machines 
+MACHINE         IP              METADATA
+dffbdc1f...     10.0.0.183      -
+</code></pre>
+<pre class="shell"><code>
+$ fleetctl list-units 
+UNIT                            MACHINE                 ACTIVE  SUB
+selenium-chrome-debug@1.service dffbdc1f.../10.0.0.183  active  running
+selenium-chrome-debug@2.service dffbdc1f.../10.0.0.183  active  running
+selenium-hub.service            dffbdc1f.../10.0.0.183  active  running
+</code></pre>
+    </section>
+
+    <section>
+        <p>Serviço exemplo</p>
+        <p>Criando nosso serviço para rodar do cluster</p>
+<pre class="ini"><code style="font-size:14px;line-height: 16px;"># selenium-hub.service
+[Unit]
+Description=Selenium hub
+After=docker.service
+Requires=docker.service
+[Service]
+EnvironmentFile=/etc/environment
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill selenium-hub
+ExecStartPre=-/usr/bin/docker rm selenium-hub
+ExecStartPre=/usr/bin/docker pull selenium/hub:2.45.0
+ExecStart=/usr/bin/docker run --rm --name selenium-hub -p 4444:4444 selenium/hub:2.45.0
+ExecStartPost=/bin/bash -c "source /etc/environment; IF=$(ifconfig | grep RUNNING| \
+egrep -i '^(en|eth)'| cut -d':' -f1| tail -n1) && HOST_IP=$(/bin/ifconfig $IF | \
+awk '/inet /{print $2}') && /usr/bin/etcdctl set /cianet/HUB_IP $HOST_IP"
+ExecStop=/usr/bin/docker stop selenium-hub
+ExecStopPost=-/usr/bin/etcdctl rm /cianet/HUB_IP
+[Install]
+WantedBy=multi-user.target
+[X-Fleet]
+Conflicts=selenium-hub
+</code></pre>
+    </section>
 </section>
+
+
 <section>
-    <h2><b>Logging</b> and Metrics</h2>
-    <br><br>
-    <p>But my app doesn't log to stdout/stderr.
-        <div class="fragment">
-            <p>It does now!
-                <pre><code>
-# /etc/nginx/nginx.conf
-worker_processes 1;
-daemon off;
-user app app;
-pid /app/nginx.pid;
-error_log /dev/stderr;
-access_log /dev/stdout;
-...
+
+    <section>
+        <p>Serviço de carga</p>
+<pre class="ini"><code style="font-size:14px;line-height: 16px;">#cianet-webkit-debug@10.service 
+[Unit]
+Description=Cianet webkit %i
+After=docker.service
+Requires=docker.service
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill cianet-webkit-test-%i
+ExecStartPre=-/usr/bin/docker rm cianet-webkit-test-%i
+ExecStartPre=/usr/bin/docker pull helber/cianet-webkitgtk3
+ExecStart=/usr/bin/docker run -p 5900 --rm --privileged \
+ -e IPTV_PROTO=http \
+ -e IPTV_DISABLE_CACHE=false \
+ -e IPTV_SERIAL=FAKE_00000000000000000010 \
+ -e IPTV_MAC=00:00:00:00:00:0A \
+ -e IPTV_HOST=middleware.iptvdomain \
+ -e IPTV_PATH=epg/?profile_test=guide_programmes \
+ --name cianet-webkit-test-%i helber/cianet-webkitgtk3
+ExecStop=/usr/bin/docker stop cianet-webkit-test-%i
+[Install]
+WantedBy=multi-user.target
 </code></pre>
-        </div>
+<pre class="ini"><code style="font-size:14px;line-height: 16px;">#view-cianet-webkit-debug@.service 
+[Unit]
+Description=Debug Cianet Webkit %i
+BindsTo=cianet-webkit-debug@%i.service
+Requires=cianet-webkit-debug@%i.service
+[Service]
+EnvironmentFile=/etc/environment
+ExecStartPre=-/usr/bin/docker exec -d cianet-webkit-test-%i /opt/bin/start_rx.sh
+ExecStartPre=-/bin/bash -c "source /etc/environment; IF=$(ifconfig | grep RUNNING| \
+egrep -i '^(en|eth)'| cut -d':' -f1| tail -n1) && HOST_IP=$(/bin/ifconfig $IF | \
+awk '/inet /{print $2}') && DPORT=$(/usr/bin/docker port cianet-webkit-test-%i 5900 | \
+cut -d':' -f2) && echo view-%i-$HOST_IP:$DPORT"
+ExecStart=/bin/bash -c "source /etc/environment; while true; do IF=$(ifconfig | grep RUNNING| \
+egrep -i '^(en|eth)'| cut -d':' -f1| tail -n1) && HOST_IP=$(/bin/ifconfig $IF | \
+awk '/inet /{print $2}') && DPORT=$(/usr/bin/docker port cianet-webkit-test-%i 5900 | cut -d':' -f2) \
+&& /usr/bin/etcdctl set /cianet/client/view-cianet-webkit-test-%i $HOST_IP:$DPORT;sleep 45;done"
+ExecStop=/bin/bash -c "source /etc/environment; /usr/bin/etcdctl rm /cianet/client/view-cianet-webkit-test-%i"
+ExecStopPost=-/usr/bin/docker exec cianet-webkit-test-%i /opt/bin/stop_rx.sh
+[X-Fleet]
+MachineOf=cianet-webkit-debug@%i.service
+</code></pre>
     </section>
-    <section data-background="#000">V2</section>
-    <section data-background-transition="concave">V3 - Vídeo
-        <video>
-            <source src="file:///mnt/projetos/gerais/videos/iptv/20130613_091547.mp4" type="video/mp4" autoplay=true controls=true />
-            </video>
-        </section>
-        <section data-background-video="file:///mnt/projetos/gerais/videos/iptv/20130613_091547.mp4">Este é um vídeo em background</section>
-    </section>
+
+</section>
+
+
+<!-- Agradescimentos de links -->
+<section>
+<h1>Obrigado</h1>
+<h2>Perguntas</h2>
+</section>
+
 </section>
         </div>
     </div>
