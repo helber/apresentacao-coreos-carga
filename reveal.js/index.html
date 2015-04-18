@@ -15,11 +15,11 @@
 
 <!-- Capa -->
 <section data-transition="zoom" data-background="images/ppt_capakingrus.png">
-        <div style="position:absolute;top:-150px;left:-100px;">
+        <div style="position:absolute;top:-100px;left:-50px;">
             <h2>Apresentação</h2>
             <h4>CoreOs, Docker e PXE</h4>
             <p>
-                <small>Realizado por Helber Maciel Guerra para <a href="http://www.cianet.ind.br">Cianet</a> / <a href="http://twitter.com/helber">@helber</a></small>
+                <small>Helber Maciel Guerra <a href="http://www.cianet.ind.br">Cianet</a> / <a href="http://twitter.com/helber">@helber</a></small>
             </p>
         </div>
 </section>
@@ -61,24 +61,31 @@ Agenda
         </aside>
     </section>
     <section>
-        Este sistema é fornecido para provedores de internet (ISP)<br/>
-        Utiliza a infraestrutura de rede do provedor para transmitir<br/>
-        Necessário alta velocidade (Fibra ótica)
-        Não é TV via internet
+        <h4>O que é o IPTV?</h4>
+        <ul>
+            <li>Este sistema é fornecido para provedores de internet (ISP)<br/>
+            <li>Utiliza a infraestrutura de rede do provedor para transmitir<br/>
+            <li>Necessário alta velocidade (Fibra ótica)<br/>
+            <li>Não é TV via internet
+        </ul>
     </section>
     <section data-background-video="video/tv.mp4" type="video/mp4"></section>
-    <section>TV gravações no servidor</section>
-    <section data-background-video="video/tvod.mp4" type="video/mp4"></section>
     <section>
-        TUDO é armazenado no servidor<br/>
+        TUDO é armazenado em servidores<br/>
         (volume, canal atual, audio e legenda de cada canal)
     </section>
     <section data-background-video="video/config.mp4" type="video/mp4"></section>
+    <section>TV gravações no servidor</section>
+    <section data-background-video="video/tvod.mp4" type="video/mp4"></section>
     <section>Conexão persistente (WebSockets) e conectividade total</section>
     <section data-background-video="video/remoto.mp4" type="video/mp4"></section>
     <section>Centenas de requisições do usuário por minuto</section>
-    <section data-background="images/desenho_rede_1.png"></section>
-    <section data-background="images/DiagramaIPTV.png"></section>
+    <section>
+        <img src="images/desenho_rede_1.png" />
+    </section>
+    <section>
+        <img src="images/DiagramaIPTV.png" />
+    </section>
     <section>
         <p>Caracteristicas:</p>
         <ul>
@@ -110,13 +117,12 @@ Agenda
     <section>
         <h3>Caminho seguido</h3>
         <h4>Abrir multiplas instâncias de browser com parametros</h4>
-<pre class="shell"><code>
-# Rodando chrome - teste
+<pre class="shell"><code># Rodando chrome - teste
 $ /opt/google/chrome/chrome_sandbox --kiosk \
 --disk-cache-size=1 --media-cache-size=1 \
 --disable-simple-cache --disable-cache \
 --user-agent="serial=Helber;mac=FF:00:00:00:00:97;" \
-"http://middleware.iptvdomain/debug/?profile_test=guide_programmes#repg"
+"http://middleware.iptvdomain/epg/?profile_test=guide_programmes"
 </code></pre>
         <p class="fragment">Chrome compartilha processos recursos</p>
         <p class="fragment">Multiplas instancias <span style="color:red;">#FAIL</span></p>
@@ -129,8 +135,7 @@ $ /opt/google/chrome/chrome_sandbox --kiosk \
     <section>
         <h3>Resolver isolamento</h3>
         <p>(Docker)</p>
-<pre class="shell"><code>
-# Rodando chrome - teste
+<pre class="shell"><code># Rodando chrome - teste
 /usr/bin/docker run -p 5900 --rm --privileged \
  -e IPTV_PROTO=http \
  -e IPTV_DISABLE_CACHE=false \
@@ -144,7 +149,7 @@ $ /opt/google/chrome/chrome_sandbox --kiosk \
             <li class="fragment">Enjaulei o bicho <span class="fragment" style="color:green;">#SUCCESS</span></li>
             <li class="fragment">Consumo de recursos, pouca coisa a mais que o próprio processo<span style="color:green;">#SUCCESS</span></li>
             <li class="fragment">Meta de teste simular 7.000 usuários simultâneos</li>
-            <li class="fragment">Agora só tenho que colocar mais 6999 <span class="fragment" style="color:red;">BUÁÁÁ</span></li>
+            <li class="fragment">Agora só tenho que colocar mais 6999 <span class="fragment" style="color:red;">BUÁÁÁ ;(</span></li>
             <aside class="notes">
                 Chrome compartilha recursos
             </aside>
@@ -169,7 +174,7 @@ $ /opt/google/chrome/chrome_sandbox --kiosk \
             <li class="fragment">Orquestração de serviços</li>
             <li class="fragment">Se um servidor cair os serviços são iniciados automaticamente nos outros</li>
             <li class="fragment">
-                Resolve conflitos entre instancias de containers
+                Resolve conflitos entre instâncias de containers
                 <ul>
                     <li>rode o X no mesmo servidor de Y</li>
                     <li>Não deixe o X rodar no mesmo servidor de Y</li>
@@ -193,8 +198,7 @@ $ /opt/google/chrome/chrome_sandbox --kiosk \
 
     <section>
         <h3>DHCP e PXE</h3>
-<pre class="nginx"><code>
-...
+<pre class="nginx"><code>...
 allow booting;
 allow bootp;
 ddns-update-style interim;
@@ -216,7 +220,8 @@ subnet 10.0.0.0 netmask 255.255.255.0 {
         <p >Os arquivos são carregados por tftp da maquina 10.0.0.10</p>
         <p >Sistema de boot vai carregar pxelinux.0</p>
         <p >No dir: /var/lib/tftpboot/pxelinux.cfg/ ficam as configs</p>
-<pre ><code class="yaml">default coreos
+<pre ><code class="yaml"># Arquivo: default
+default coreos
 prompt 1
 timeout 15
 display boot.msg
@@ -315,7 +320,7 @@ WantedBy=multi-user.target
         <h3>ETCD</h3>
         <h4>Banco de dados chave-valor</h4>
         <p class="fragment">Preparado para ser tolerante à falha e distribuido <span style="color:green;">OK</span></p>
-        <p class="fragment">Tudo de está rodando e estado de serviços e servidores estão nele <span style="color:green;">OK</span></p>
+        <p class="fragment">Tudo de estado de serviços e servidores estão nele <span style="color:green;">OK</span></p>
         <p class="fragment">Serviços como o Fleet (proximo slide) se baseia nele</p>
     </section>
 
@@ -330,13 +335,11 @@ WantedBy=multi-user.target
 
     <section>
         <p>fleetctl - comando de controle do fleet</p>
-<pre class="shell"><code>
-$ fleetctl list-machines 
+<pre class="shell"><code>$ fleetctl list-machines 
 MACHINE         IP              METADATA
 dffbdc1f...     10.0.0.183      -
 </code></pre>
-<pre class="shell"><code>
-$ fleetctl list-units 
+<pre class="shell"><code>$ fleetctl list-units 
 UNIT                            MACHINE                 ACTIVE  SUB
 selenium-chrome-debug@1.service dffbdc1f.../10.0.0.183  active  running
 selenium-chrome-debug@2.service dffbdc1f.../10.0.0.183  active  running
@@ -429,26 +432,21 @@ MachineOf=cianet-webkit-debug@%i.service
 <section data-markdown style="font-size:21px;">
 Obrigado
 ========
+
+_Contato: Helber Maciel Guerra_
+
+E-mail: [helber@cianet.ind.br](mailto:helber@cianet.ind.br) / [helbermg@gmail.com](mailto:helbermg@gmail.com)
+
+Twitter: [@helber](http://twitter.com/helber)
+
+[http://www.cianet.ind.br](http://www.cianet.ind.br)
+
 # Perguntas?
+____________
+
 Fontes: https://github.com/helber/coreos-carga
 
 CoreOS: https://coreos.com/
-
-Senenium: https://github.com/SeleniumHQ/docker-selenium
-
-Libvirt: https://coreos.com/docs/running-coreos/platforms/libvirt/
-https://github.com/kelseyhightower/kubernetes-fleet-tutorial/blob/master/configs/node.yml
-https://github.com/kelseyhightower/kubernetes-fleet-tutorial/blob/master/configs/etcd.yml
-
-ETCD:
-https://github.com/coreos/etcd/blob/master/Documentation/clustering.md
-https://coreos.com/docs/distributed-configuration/getting-started-with-etcd/
-https://coreos.com/blog/intro-to-systemd-networkd/
-https://www.digitalocean.com/community/tutorials/how-to-use-etcdctl-and-etcd-coreos-s-distributed-key-value-store
-https://www.digitalocean.com/community/tutorials/how-to-create-and-run-a-service-on-a-coreos-cluster
-
-Intro na DigitalOcean (1-8):
-https://www.digitalocean.com/community/tutorials/an-introduction-to-coreos-system-components
 </section>
 
 </section>
