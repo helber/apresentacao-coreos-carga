@@ -67,7 +67,9 @@ Agenda
     <section data-background-video="video/config.mp4" type="video/mp4"></section>
     <section>Conexão persistente (WebSockets) e conectividade total</section>
     <section data-background-video="video/remoto.mp4" type="video/mp4"></section>
-    <section>TODO: MAPA</section>
+    <section>Centenas de requisições do usuário por minuto</section>
+    <section data-background="images/desenho_rede_1.png"></section>
+    <section data-background="images/DiagramaIPTV.png"></section>
     <section>
         <p>Caracteristicas:</p>
         <ul>
@@ -76,26 +78,23 @@ Agenda
             <li class="fragment">Muitas requisições para cada comando do usuário</li>
             <li class="fragment">Conexões "persistentes"</li>
             <li class="fragment">Frontend evoluindo muito rapidamente</li>
-            <li class="fragment"></li>
+            <li class="fragment">Too Many Open Sockets</li>
+            <li class="fragment">Too Many Open Files</li>
+            <li class="fragment">Carga de arquivos estáticos</li>
+            <li class="fragment">Carga e consumo de banco</li>
+            <li class="fragment">Limites nas aplicações</li>
+        </ul>
+    </section>
+    <section>
+        <p>Tentativas:</p>
+        <ul>
+            <li class="fragment">Vários testes de carga com requests - <span style="color:red;">#FAIL</span></li>
+            <li class="fragment">Baseados em <b>logs</b> - <span style="color:red;">#FAIL</span></li>
+            <li class="fragment">Direto no javascript (Simulando digitação - controle remoto) - <span style="color:green;">#SUCCESS</span></li>
         </ul>
     </section>
 </section>
 <section data-markdown>
-- De onde veio a necessidade
-    - TV funcionando (vídeo)
-    - Servidores e serviços (cadeia de requests)
-    - Como escala (árvore)
-    - Problemas
-        - Too Many Open Sockets
-        - Too Many Open Files
-        - Conexões persistentes
-        - Carga de arquivos estáticos
-        - Carga e consumo de banco
-        - Limites nas aplicações
-    - Testes de carga
-        - vários testes de carga com requests - FAIL
-        - Baseados em **logs** - FAIL
-        - Direto no javascript (Simulando digitação - controle remoto) - SUCCESS
 - Caminho seguido
     - Problemas:
         - Abrir multiplas instcancias de browser
