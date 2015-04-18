@@ -12,19 +12,19 @@
                 <!-- Any section element inside of this container is displayed as a slide -->
                 <div class="slides">
 <section data-transition="zoom" data-background="images/ppt_capakingrus.png">
-        <div style="position:absolute;top:-100px;">
+        <div style="position:absolute;top:-150px;left:-100px;">
             <h2>Apresentação</h2>
             <h4>CoreOs, Docker e PXE</h4>
             <p>
-                <small>Criado por <a href="http://www.cianet.ind.br">Helber Maciel Guerra</a> / <a href="http://twitter.com/helber">@helber</a></small>
+                <small>Realizado por Helber Maciel Guerra para <a href="http://www.cianet.ind.br">Cianet</a> / <a href="http://twitter.com/helber">@helber</a></small>
             </p>
         </div>
 </section>
-<section data-markdown>
+<section data-markdown style="font-size:23px;">
 Agenda
 ========
-- De onde vem a necessidade (10 min.)
-    - TV
+- De onde vem a necessidade (5 min.)
+    - IPTV
     - Servidores e serviços
     - Como escala
     - Testes de carga
@@ -33,7 +33,7 @@ Agenda
     - Passagem de parametros
     - Muitas instancias do browser
     - CoreOS
-- Como funciona tudo? (20 min.)
+- Como funciona tudo? (25 min.)
     - DHCP
     - CoreOS inicia
     - Etcd
@@ -42,9 +42,46 @@ Agenda
     - Exemplos de execução
 - Agradescimentos
 </section>
+<section >
+    <section>
+        <h3>De onde veio a necessidade?</h3>
+        <h4>Sistema de IPTV - com um navegador web como UI</h4>
+        <h4>SetTopBox na casa do usuário</h4>
+        <aside class="notes">
+            Caracteristicas do sistema
+        </aside>
+    </section>
+    <section>
+        Este sistema é fornecido para provedores de internet (ISP)<br/>
+        Utiliza a infraestrutura de rede do provedor para transmitir<br/>
+        Necessário alta velocidade (Fibra ótica)
+        Não é TV via internet
+    </section>
+    <section data-background-video="video/tv.mp4" type="video/mp4"></section>
+    <section>TV gravações no servidor</section>
+    <section data-background-video="video/tvod.mp4" type="video/mp4"></section>
+    <section>
+        TUDO é armazenado no servidor<br/>
+        (volume, canal atual, audio e legenda de cada canal)
+    </section>
+    <section data-background-video="video/config.mp4" type="video/mp4"></section>
+    <section>Conexão persistente (WebSockets) e conectividade total</section>
+    <section data-background-video="video/remoto.mp4" type="video/mp4"></section>
+    <section>TODO: MAPA</section>
+    <section>
+        <p>Caracteristicas:</p>
+        <ul>
+            <li class="fragment"><i>Single page application</i></li>
+            <li class="fragment">Grande interatividade</li>
+            <li class="fragment">Muitas requisições para cada comando do usuário</li>
+            <li class="fragment">Conexões "persistentes"</li>
+            <li class="fragment">Frontend evoluindo muito rapidamente</li>
+            <li class="fragment"></li>
+        </ul>
+    </section>
+</section>
 <section data-markdown>
-- História
-    - De onde veio a necessidade
+- De onde veio a necessidade
     - TV funcionando (vídeo)
     - Servidores e serviços (cadeia de requests)
     - Como escala (árvore)
@@ -121,7 +158,7 @@ Agenda
                         <li class="fragment">Muitas requisições para cada comando do usuário</li>
                         <li class="fragment">Conexões "persistentes"</li>
                         <li class="fragment">Frontend evoluindo muito rapidamente</li>
-                        <li class="fragment"></li>
+                        <li class="fragment">Grande quantidade de arquivos abertos</li>
                 </ul>
         </section>
         <section data-background-video="file:///mnt/projetos/gerais/videos/iptv/20130613_091547.mp4" type="video/mp4">Vídeo</section>
