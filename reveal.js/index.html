@@ -183,20 +183,16 @@ access_log /dev/stdout;
     </div>
     <script src="reveal.js-3.0.0/lib/js/head.min.js"></script>
     <script src="reveal.js-3.0.0/js/reveal.js"></script>
-
     <script>
-
-        // Full list of configuration options available at:
+    // Full list of configuration options available at:
     // https://github.com/hakimel/reveal.js#configuration
     Reveal.initialize({
         controls: true,
         progress: true,
-        history: false,
+        history: true,
         center: true,
         slideNumber: true,
-
         transition: 'slide', // none/fade/slide/convex/concave/zoom
-
         // Optional reveal.js plugins
         dependencies: [
             { src: 'reveal.js-3.0.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
@@ -207,8 +203,6 @@ access_log /dev/stdout;
             { src: 'reveal.js-3.0.0/plugin/notes/notes.js', async: true }
         ]
     });
-
     </script>
-
 </body>
 </html>
