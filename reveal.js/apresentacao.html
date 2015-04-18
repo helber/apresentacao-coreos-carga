@@ -1,71 +1,156 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>CoreOs-SOLISC</title>
-		<link rel="stylesheet" href="reveal.js-3.0.0/css/reveal.css">
-		<link rel="stylesheet" href="reveal.js-3.0.0/css/theme/black.css" id="theme">
-		<link rel="stylesheet" href="reveal.js-3.0.0/lib/css/zenburn.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<!-- Any section element inside of this container is displayed as a slide -->
-			<div class="slides">
-				<section data-transition="zoom" data-background="images/ppt_capakingrus.png">
-					<div style="position:absolute;top:-100px;">
-						<h2>Apresentação</h2>
-						<h4>CoreOs, Docker e PXE</h4>
-						<p>
-							<small>Criado por <a href="http://www.cianet.ind.br">Helber Maciel Guerra</a> / <a href="http://twitter.com/helber">@helber</a></small>
-						</p>
-					</div>
-				</section>
-				<section data-background="images/ppt_mestrakingrus.png">
-					<section>
-						<h2>Introdução: </h2>
-						<h3>Sistema de IPTV - com um navegador web como UI</h3>
-						<aside class="notes">
-							Caracteristicas do sistema
-						</aside>
-					</section>
-					<section>
-						<p>Caracteristicas:</p>
-						<ul>
-							<li class="fragment"><i>Single page application</i></li>
-							<li class="fragment">Grande interatividade</li>
-							<li class="fragment">Muitas requisições para cada comando do usuário</li>
-							<li class="fragment">Conexões "persistentes"</li>
-							<li class="fragment">Frontend evoluindo muito rapidamente</li>
-							<li class="fragment"></li>
-						</ul>
-					</section>
-					<section data-background-video="file:///mnt/projetos/gerais/videos/iptv/20130613_091547.mp4" type="video/mp4">Vídeo</section>
-				</section>
-				<section data-transition="concave">
-					<section>
-						<p>Principais componentes:</p>
-						<ul>
-							<li class="fragment">Docker (Containers e isolamento)</li>
-							<li class="fragment">Etcd (Banco de dados - chave/valor)</li>
-							<li class="fragment">Fleet (Agente / Orquestração)</li>
-							<li class="fragment"></li>
-						</ul>
-					</section>
-					<section data-transition="zoom">
+        <head>
+            <meta charset="utf-8">
+            <title>CoreOs-SOLISC</title>
+            <link rel="stylesheet" href="reveal.js-3.0.0/css/reveal.css">
+            <link rel="stylesheet" href="reveal.js-3.0.0/css/theme/black.css" id="theme">
+            <link rel="stylesheet" href="reveal.js-3.0.0/lib/css/zenburn.css">
+        </head>
+        <body>
+            <div class="reveal">
+                <!-- Any section element inside of this container is displayed as a slide -->
+                <div class="slides">
+<section data-transition="zoom" data-background="images/ppt_capakingrus.png">
+        <div style="position:absolute;top:-100px;">
+            <h2>Apresentação</h2>
+            <h4>CoreOs, Docker e PXE</h4>
+            <p>
+                <small>Criado por <a href="http://www.cianet.ind.br">Helber Maciel Guerra</a> / <a href="http://twitter.com/helber">@helber</a></small>
+            </p>
+        </div>
+</section>
+<section data-markdown>
+Agenda
+========
+- De onde vem a necessidade (10 min.)
+    - TV
+    - Servidores e serviços
+    - Como escala
+    - Testes de carga
+- Caminho seguido (10 min.)
+    - Resolver isolamento
+    - Passagem de parametros
+    - Muitas instancias do browser
+    - CoreOS
+- Como funciona tudo? (20 min.)
+    - DHCP
+    - CoreOS inicia
+    - Etcd
+    - Fleet
+    - Serviços
+    - Exemplos de execução
+- Agradescimentos
+</section>
+<section data-markdown>
+- História
+    - De onde veio a necessidade
+    - TV funcionando (vídeo)
+    - Servidores e serviços (cadeia de requests)
+    - Como escala (árvore)
+    - Problemas
+        - Too Many Open Sockets
+        - Too Many Open Files
+        - Conexões persistentes
+        - Carga de arquivos estáticos
+        - Carga e consumo de banco
+        - Limites nas aplicações
+    - Testes de carga
+        - vários testes de carga com requests - FAIL
+        - Baseados em **logs** - FAIL
+        - Direto no javascript (Simulando digitação - controle remoto) - SUCCESS
+- Caminho seguido
+    - Problemas:
+        - Abrir multiplas instcancias de browser
+        - Passar parametros
+        - Não isolamento entre as instâncias do chrome
+    - Resolver isolamento (Docker)
+        - Linux containers
+        - chroot com steroides
+    - Passagem de parametros
+        - Exemplos de código
+    - Muitas instancias do browser (muitos containers docker)
+        - Servidores?
+        - Agentes que lançam os dockers?
+    - CoreOS
+        - 140 Mb comprimido
+        - Não roda Python, Perl, Ruby, Javascript, ...
+        - Sem gerenciamento de pacotes
+        - Sem compilador
+        - Orquestração de serviços
+        - Se um servidor cair os serviços são iniciados automaticamente nos outros
+        - Resolve conflitos entre instancias de containers
+        - Ex.:
+            - rode o X no mesmo servidor de Y
+            - Não deixe o X rodar no mesmo servidor de Y
+            - Somente uma instancia do Z pode estar rodando
+            - Roda somente no servidor X
+- Como funciona tudo?
+    - DHCP:
+        - Código
+    - CoreOS inicia:
+        - Carrega o arquivo de spec de inicialização (cloud-configs)
+            - Código
+        - libvirt
+            - Código
+    - Etcd
+        - Banco de dados chave valor
+        >etcdctl ls --recursive /_coreos.com
+    - Fleet
+        - Interface de cluster para o systemd
+        - Consulta o etcd
+            - Exemplo de código
+    - Serviços
+        - Exemplo de código
+    - Exemplos de execução
+- Agradescimentos
+</section>
+<section data-background="images/ppt_mestrakingrus.png">
+        <section>
+                <h2>Introdução: </h2>
+                <h3>Sistema de IPTV - com um navegador web como UI</h3>
+                <aside class="notes">
+                        Caracteristicas do sistema
+                </aside>
+        </section>
+        <section>
+                <p>Caracteristicas:</p>
+                <ul>
+                        <li class="fragment"><i>Single page application</i></li>
+                        <li class="fragment">Grande interatividade</li>
+                        <li class="fragment">Muitas requisições para cada comando do usuário</li>
+                        <li class="fragment">Conexões "persistentes"</li>
+                        <li class="fragment">Frontend evoluindo muito rapidamente</li>
+                        <li class="fragment"></li>
+                </ul>
+        </section>
+        <section data-background-video="file:///mnt/projetos/gerais/videos/iptv/20130613_091547.mp4" type="video/mp4">Vídeo</section>
+</section>
+<section data-transition="concave">
+        <section>
+                <p>Principais componentes:</p>
+                <ul>
+                        <li class="fragment">Docker (Containers e isolamento)</li>
+                        <li class="fragment">Etcd (Banco de dados - chave/valor)</li>
+                        <li class="fragment">Fleet (Agente / Orquestração)</li>
+                        <li class="fragment"></li>
+                </ul>
+        </section>
+        <section data-transition="zoom">
 TODO: REMOVE
 <pre class="stretch"><code>
 $ docker run -d -v ~/chef/cookbook:/cookbook --name chefdk spheromak/docker-chefdk sleep 6000000
 $ docker exec -ti chefdk bundle install
 $ docker exec -ti chefdk rake test</code></pre>
 </code></pre>
-					</section>
-					<section>
-					<h2><b>Logging</b> and Metrics</h2>
-					<br><br>
-					<p>But my app doesn't log to stdout/stderr.
-					<div class="fragment">
-					<p>It does now!
-					<pre><code>
+</section>
+<section>
+    <h2><b>Logging</b> and Metrics</h2>
+    <br><br>
+    <p>But my app doesn't log to stdout/stderr.
+        <div class="fragment">
+            <p>It does now!
+                <pre><code>
 # /etc/nginx/nginx.conf
 worker_processes 1;
 daemon off;
@@ -74,58 +159,56 @@ pid /app/nginx.pid;
 error_log /dev/stderr;
 access_log /dev/stdout;
 ...
-					</code></pre>
-					</div>
-					</section>
-					<section data-background="#000">V2</section>
-					<section data-background-transition="concave">V3 - Vídeo
-						<video>
-							<source src="file:///mnt/projetos/gerais/videos/iptv/20130613_091547.mp4" type="video/mp4" autoplay=true controls=true />
-						</video>
-					</section>
-					<section data-background-video="file:///mnt/projetos/gerais/videos/iptv/20130613_091547.mp4">Este é um vídeo em background</section>
-				</section>
-				<section data-autoslide="1000">
-					<p>After 2 seconds the first fragment will be shown.</p>
-					<p class="fragment" data-autoslide="10000">After 10 seconds the next fragment will be shown.</p>
-					<p class="fragment">Now, the fragment is displayed for 2 seconds before the next slide is shown.</p>
-					<aside class="notes">
-						Este é um texto de ajuda....
-					</aside>
-				</aside>
-				</section>
-			</div>
+</code></pre>
+        </div>
+    </section>
+    <section data-background="#000">V2</section>
+    <section data-background-transition="concave">V3 - Vídeo
+        <video>
+            <source src="file:///mnt/projetos/gerais/videos/iptv/20130613_091547.mp4" type="video/mp4" autoplay=true controls=true />
+            </video>
+        </section>
+        <section data-background-video="file:///mnt/projetos/gerais/videos/iptv/20130613_091547.mp4">Este é um vídeo em background</section>
+    </section>
+    <section data-autoslide="1000">
+        <p>After 2 seconds the first fragment will be shown.</p>
+        <p class="fragment" data-autoslide="10000">After 10 seconds the next fragment will be shown.</p>
+        <p class="fragment">Now, the fragment is displayed for 2 seconds before the next slide is shown.</p>
+        <aside class="notes">
+            Este é um texto de ajuda....
+        </aside>
+    </aside>
+</section>
+        </div>
+    </div>
+    <script src="reveal.js-3.0.0/lib/js/head.min.js"></script>
+    <script src="reveal.js-3.0.0/js/reveal.js"></script>
 
-		</div>
+    <script>
 
-		<script src="reveal.js-3.0.0/lib/js/head.min.js"></script>
-		<script src="reveal.js-3.0.0/js/reveal.js"></script>
+        // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: false,
+        center: true,
+        slideNumber: true,
 
-		<script>
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
 
-			// Full list of configuration options available at:
-			// https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				controls: true,
-				progress: true,
-				history: false,
-				center: true,
-				slideNumber: true,
+        // Optional reveal.js plugins
+        dependencies: [
+            { src: 'reveal.js-3.0.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'reveal.js-3.0.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'reveal.js-3.0.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'reveal.js-3.0.0/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: 'reveal.js-3.0.0/plugin/zoom-js/zoom.js', async: true },
+            { src: 'reveal.js-3.0.0/plugin/notes/notes.js', async: true }
+        ]
+    });
 
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
+    </script>
 
-				// Optional reveal.js plugins
-				dependencies: [
-					{ src: 'reveal.js-3.0.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-					{ src: 'reveal.js-3.0.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'reveal.js-3.0.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'reveal.js-3.0.0/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: 'reveal.js-3.0.0/plugin/zoom-js/zoom.js', async: true },
-					{ src: 'reveal.js-3.0.0/plugin/notes/notes.js', async: true }
-				]
-			});
-
-		</script>
-
-	</body>
+</body>
 </html>
