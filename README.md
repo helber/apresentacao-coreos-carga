@@ -1,6 +1,10 @@
 Apresentação - Cluster com CoreOs e Docker
 ==========================================
 
+# Este é uma apresentação feita para o solisc 9
+
+O roteiro seguido para preparar a apresentação foi:
+
 - Capa
 - Agenda
 - História
@@ -65,13 +69,6 @@ Apresentação - Cluster com CoreOs e Docker
     - Exemplos de execução
 - Agradescimentos
 
+Autor Helber Maciel Guerra
+e-mails: helber@cianet.ind.br / helbermg@gmail.com
 
-
-
-
->ds
-das
-dsa
-! [lala lala](reveal.js/images/ppt_capakingrus.png)
-
-http://daringfireball.net/projects/markdown/syntax
