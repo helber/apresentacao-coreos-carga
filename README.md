@@ -3,6 +3,13 @@ Apresentação - Cluster com CoreOs e Docker
 
 # Este é uma apresentação feita para o solisc 9
 
+O conteúdo em forma de apresentação está em [Apresentação](reveal.js/index.html)
+
+Para visualizar a apresentação é necessário o reveal.js.
+Este é um submodulo do projeto.
+Para atualizar ou baixar esta biblioteca utilize:
+> git submodule update --init
+
 O roteiro seguido para preparar a apresentação foi:
 
 - Capa
