@@ -12,6 +12,12 @@ Para atualizar ou baixar esta biblioteca utilize:
 
 Após isto pode abrir o arquivo contido em reveal.js/index.html e utilize as teclas HOME SPACE e setas para navegar pela apresentação.
 
+Os códigos fonte utilizados para a criação do cluster se encontram em:
+
+https://github.com/helber/coreos-carga/
+
+CoreOS: https://coreos.com/
+
 O roteiro seguido para preparar a apresentação foi:
 
 - Capa
@@ -79,5 +85,10 @@ O roteiro seguido para preparar a apresentação foi:
 - Agradescimentos
 
 Autor Helber Maciel Guerra
-e-mails: helber@cianet.ind.br / helbermg@gmail.com
+
+Twitter: [@helber](http://twitter.com/helber)
+
+[http://www.cianet.ind.br](http://www.cianet.ind.br)
+
+E-mail: [helber@cianet.ind.br](mailto:helber@cianet.ind.br) / [helbermg@gmail.com](mailto:helbermg@gmail.com)
 
