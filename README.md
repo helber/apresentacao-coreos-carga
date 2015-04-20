@@ -5,6 +5,9 @@ Apresentação - Cluster com CoreOs e Docker
 
 O conteúdo em forma de apresentação está em [Apresentação](reveal.js/index.html)
 
+Para baixar todo o conteudo clone o repositório com:
+> git clone https://github.com/helber/apresentacao-coreos-carga.git
+
 Para visualizar a apresentação é necessário o reveal.js.
 Este é um submodulo do projeto.
 Para atualizar ou baixar esta biblioteca utilize:
