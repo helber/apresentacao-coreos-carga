@@ -10,6 +10,8 @@ Este é um submodulo do projeto.
 Para atualizar ou baixar esta biblioteca utilize:
 > git submodule update --init
 
+Após isto pode abrir o arquivo contido em reveal.js/index.html e utilize as teclas HOME SPACE e setas para navegar pela apresentação.
+
 O roteiro seguido para preparar a apresentação foi:
 
 - Capa
