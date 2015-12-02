@@ -19,7 +19,7 @@
             <h2>Apresentação</h2>
             <h4>Kingrus - De dispositivo conectado até - IoT?</h4>
             <p>
-                <small>Helber Maciel Guerra <a href="http://www.cianet.ind.br">Cianet</a> / <a href="http://twitter.com/helber">@helber</a></small>
+                <small>Helber Maciel Guerra<br/> <a href="http://www.cianet.ind.br">Cianet</a> / <a href="http://twitter.com/helber">@helber</a></small>
             </p>
         </div>
 </section>
@@ -45,10 +45,10 @@ Agenda
 ========
 - O que é o Kingrus?
     - IPTV
-- IPTV
-    - Conteúdo
+- Kingrus - Componentes
     - Headend
     - Middleware
+    - Conteúdo
 - SetTopBox
     - Device Conectado
     - UI (User Interface)
@@ -80,15 +80,20 @@ Agenda
         </aside>
     </section>
     <section>
-        <h4>O que é o IPTV?</h4>
+        <h3>O que é o IPTV?</h3>
         <ul>
             <li>Utiliza a infraestrutura de rede do provedor para transmitir (Rede local)<br/>
-            <li>Quanto melhor a rede, melhor a qualidade (Fibra ótica)<br/>
+            <li>Quanto melhor a rede, melhor pode ser a qualidade<br/>
             <li>Não é TV via internet<br/>
             <li>Mas pode utizar a internet como meio de transmissão<br/>
         </ul>
     </section>
-    <section data-background-video="video/tv.mp4" type="video/mp4"></section>
+    <section data-background-video="video/tv.mp4" type="video/mp4">
+        <aside class="notes">
+            Vídeo Demo<br/>
+            Informações na UI
+        </aside>
+    </section>
     <section>
         Cada interação com as telas reflete algumas dezenas de troca de mensagens entre o STB e o middleware
     </section>
@@ -98,37 +103,53 @@ Agenda
 <!-- Parte 2 -->
 <section>
     <section>
-        <h3>IPTV</h3>
+        <h3>Kingrus - Componentes</h3>
     </section>
     <section>
+        <h4>Headend</h4>
         <ul>
-            <li>TUDO é armazenado em servidores <b>(Middleware)</b><br/>
+            <li>Multiplos servidores (Papéis)</li>
+            <li>Multiplos equipamentos</li>
+            <ul>
+                <li>Receptores</li>
+                <li>Critografia</li>
+                <li>transcodificadores</li>
+                <li>Gravadores</li>
+                <li>...</li>
+            </ul>
+        </ul>
+    </section>
+    <section>
+        <img src="images/DiagramaIPTV.png" />
+    </section>
+    <section>
+        <h4>Middleware</h4>
+        <ul>
+            <li>TUDO é armazenado em servidores<br/>
             <li>O que está passando em cada canal em que horário<br/>
             <li>Quem tem permissão de acesso<br/>
             <li>Controle parental<br/>
             <li>(volume, canal atual, audio, legenda de cada canal, ...)
         </ul>
     </section>
-    <section data-background-video="video/config.mp4" type="video/mp4"></section>
+    <section data-background-video="video/config.mp4" type="video/mp4">
+        <aside class="notes">
+            Vídeo Config<br/>
+            Informações persistentes
+        </aside>
+    </section>
     <section>
-        <h4>TV gravações no servidor</h4>
-        Acesso ao conteúdo não linear.
+        <h4>Acesso ao conteúdo não linear.</h4>
         <ul>
             <li class="fragment">TVoD (Acesso ao conteúdo gravado)<br/>
             <li class="fragment">VoD (Vídeo sob demanda) Ex. Netflix<br/>
             <li class="fragment">OTT (Over the top) ou Rede local<br/>
         </ul>
     </section>
-    <section data-background-video="video/tvod.mp4" type="video/mp4"></section>
-    <section>
-        <h4>Headend</h4>
-        <ul>
-            <li>Multiplos servidores</li>
-            <li>Multiplos equipamentos (Receptores, transcodificadores, critografia)</li>
-        </ul>
-    </section>
-    <section>
-        <img src="images/DiagramaIPTV.png" />
+    <section data-background-video="video/tvod.mp4" type="video/mp4">
+        <aside class="notes">
+            Vídeo TVoD
+        </aside>
     </section>
     <section>
         <h4>Simplificação do middleware</h4>
@@ -159,16 +180,14 @@ Agenda
     <section>
         <h4>O que tem no SetTopBox</h4>
         <ul>
+            <li>Entrada de dados</li>
             <li>No caso do kingrus é um sistema com uma interface WEB (Browser)
             <li>Single Page Application
             <li>Conexão persistente (WebSockets) e conectividade total
             <li>Acesso baixo nível feito por APIs Javascript
         </ul>
     </section>
-    <section data-background-video="video/remoto.mp4" type="video/mp4"></section>
-    <section>Centenas de requisições do usuário por minuto</section>
 </section>
-
 
 
 
@@ -176,11 +195,70 @@ Agenda
 - Middleware na internet
     - Autenticação, autorização e identificação
     - Exemplo: Controle remoto
+-->
+<section>
+    <section>
+        <h3>Middleware na internet</h3>
+        <h4>Visivel na web</h4>
+        <h4>Acessível por devices</h4>
+    </section>
+    <section>
+        <h4>Ponto de acesso entre sistemas</h4>
+        <ul>
+            <li>Autenticação
+            <li>Autorização
+            <li>Identificação
+            <li>Acesso à multiplos middlewares
+            <li>Ponte entre a outros sistemas na internet
+        </ul>
+    </section>
+    <section>
+        <h4>Exemplo: Controle Remoto</h4>
+        <ul>
+            <li class="fragment">Device (Smartfone) - Toque na tela<br/>
+            <li class="fragment">Mensagem para o middleware central<br/>
+            <li class="fragment">Mensagem para o middleware que tem o STB<br/>
+            <li class="fragment">Mensagem para o servidor de conexão com o STB<br/>
+            <li class="fragment">Mensagem para o STB<br/>
+            <li class="fragment">Executa ação<br/>
+        </ul>
+    </section>
+    <section data-background-video="video/remoto.mp4" type="video/mp4">
+        <aside class="notes">
+            Vídeo controle remoto
+        </aside>
+    </section>
+</section>
+
+
+<!-- Parte 5
 - Possibilidades
     - Sinais do STB para outros sistemas
     - Sinais de outros para e TV
-- Perguntas
 -->
+<section>
+    <section>
+        <h3>Possibilidades</h3>
+    </section>
+    <section>
+        <h4>Sinais do STB para outros sistemas</h4>
+        <ul>
+            <li>Gostei de um filme (Twitter, Facebook, ...)
+            <li>Diminuir a luz ambiente
+        </ul>
+    </section>
+    <section>
+        <h4>Sinais de outros para e TV</h4>
+        <ul>
+            <li>Do celular (GPS)</li>
+            <li>Ligue a TV</li>
+            <li>Ao abrir a porta de garagem</li>
+            <li>Aguarde 3 min.</li>
+            <li>Mude para o canal de notícias</li>
+            <li>Volte para o jornal das 12:30</li>
+        </ul>
+    </section>
+</section>
 
 
 <!-- Agradescimentos de links -->
